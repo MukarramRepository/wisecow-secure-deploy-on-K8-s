@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wisecow
+  namespace: wisecow
+  labels:
+    app: wisecow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wisecow
+  template:
+    metadata:
+      labels:
+        app: wisecow
+    spec:
+      containers:
+        - name: wisecow
+          image:  docker.io/coolfaiz/wisecow:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4499
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 4499
+            initialDelaySeconds: 5
+            periodSeconds: 10
